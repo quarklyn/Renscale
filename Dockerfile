@@ -1,12 +1,13 @@
-FROM alpine:3.18.3
+FROM python:alpine
 
-# Setup tailscale
-WORKDIR /tailscale.d
+WORKDIR /app
 
-COPY start.sh /tailscale.d/start.sh
+COPY /app/requirements.txt /app/tailscale.d/
+
+RUN pip install --no-cache-dir -r /app/tailscale.d/requirements.txt
 
 ENV TAILSCALE_VERSION "latest"
-ENV TAILSCALE_HOSTNAME "renscale"
+ENV TAILSCALE_HOSTNAME "Renscale"
 ENV TAILSCALE_ADDITIONAL_ARGS ""
 
 RUN wget https://pkgs.tailscale.com/stable/tailscale_${TAILSCALE_VERSION}_amd64.tgz && \
@@ -16,5 +17,5 @@ RUN apk update && apk add ca-certificates iptables ip6tables && rm -rf /var/cach
 
 RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
-RUN chmod +x ./start.sh
-CMD ["./start.sh"]
+COPY . .
+CMD /app/tailscale.d/start.sh
