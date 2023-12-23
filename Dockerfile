@@ -2,9 +2,9 @@ FROM python:alpine
 
 WORKDIR /app
 
-COPY /app/requirements.txt /app/tailscale.d/
+COPY /app/requirements.txt /app/app/
 
-RUN pip install --no-cache-dir -r /app/tailscale.d/requirements.txt
+RUN pip install --no-cache-dir -r /app/app/requirements.txt
 
 ENV TAILSCALE_VERSION "latest"
 ENV TAILSCALE_HOSTNAME "Renscale"
@@ -18,4 +18,4 @@ RUN apk update && apk add ca-certificates iptables ip6tables && rm -rf /var/cach
 RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
 
 COPY . .
-CMD /app/tailscale.d/start.sh
+CMD /app/app/start.sh
