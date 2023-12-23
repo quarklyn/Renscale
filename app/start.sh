@@ -20,6 +20,6 @@ echo "Tailscale is running!"
 
 gunicorn \
     --bind 0.0.0.0:${PORT} \
-    --workers 1 \
-    --threads 1 \
+    --workers 2 \
+    --threads 2 \
     app.wsgi:app
